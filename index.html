@@ -109,20 +109,21 @@
     <input type="time" id="horaInicio" step="1" value="08:00:00" style="width: 50%;">
   </div>
 
-  <div class="row-inputs">
+    <div class="row-inputs">
     <div class="input-group">
       <label>Intervalo</label>
-      <input type="time" id="intervalo" value="01:00">
+      <input type="time" id="intervalo" step="1" value="00:00:00">
     </div>
     <div class="input-group">
       <label>Duração</label>
-      <input type="time" id="duracao" value="00:03">
+      <input type="time" id="duracao" step="1" value="00:00:00">
     </div>
     <div class="input-group">
       <label>Regas</label>
-      <input type="number" id="quantidadeRegas" value="20" min="1">
+      <input type="number" id="quantidadeRegas" value="30" min="3">
     </div>
   </div>
+
 
   <button class="btn-blue" onclick="calcularRegas()">Calcular Horários</button>
 
