@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculadora de Regas</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa; /* Світлий фон як на скріні */
+    color: #000;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+  }
+  .container {
+    width: 100%;
+    max-width: 400px;
+    background: #f8f9fa;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .header-box {
+    background-color: #eeeeee;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 25px;
+    box-sizing: border-box;
+    color: #333;
+    font-size: 14px;
+  }
+  .row-inputs {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 15px;
+  }
+  .input-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 30%;
+  }
+  .input-group-large {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 25px;
+  }
+  label {
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: #000;
+  }
+  input {
+    width: 100%;
+    padding: 10px 5px;
+    text-align: center;
+    border: 1px solid #666;
+    font-size: 16px;
+    box-sizing: border-box;
+  }
+  .btn-blue {
+    width: 100%;
+    padding: 15px;
+    background-color: #007bff; /* Синій колір кнопок зі скріна */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 15px;
+  }
+  .btn-blue:active {
+    background-color: #0056b3;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    text-align: center;
+    background: #fff;
+  }
+  th, td {
+    border: 1px solid #ddd;
+    padding: 10px;
+  }
+  th {
+    background-color: #eeeeee;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="header-box" id="dataAtual">
+    A carregar data...
+  </div>
+
+  <div class="input-group-large">
+    <label>1ª REGA (INÍCIO)</label>
+    <input type="time" id="horaInicio" step="1" value="08:00:00" style="width: 50%;">
+  </div>
+
+  <div class="row-inputs">
+    <div class="input-group">
+      <label>Intervalo</label>
+      <input type="time" id="intervalo" value="01:00">
+    </div>
+    <div class="input-group">
+      <label>Duração</label>
+      <input type="time" id="duracao" value="00:03">
+    </div>
+    <div class="input-group">
+      <label>Regas</label>
+      <input type="number" id="quantidadeRegas" value="20" min="1">
+    </div>
+  </div>
+
+  <button class="btn-blue" onclick="calcularRegas()">Calcular Horários</button>
+
+  <table id="tabelaResultados" style="display:none;">
+    <thead>
+      <tr>
+        <th>Nº</th>
+        <th>Início</th>
+        <th>Fim</th>
+      </tr>
+    </thead>
+    <tbody id="corpoTabela">
+    </tbody>
+  </table>
+</div>
+
+<script>
+  // Функція, щоб показувати поточний час і дату на плашці португальською
+  function atualizarRelogio() {
+    const dataAtualElemento = document.getElementById('dataAtual');
+    const agora = new Date();
+    
+    const opcoesData = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    let dataFormatada = agora.toLocaleDateString('pt-PT', opcoesData);
+    // Робимо першу букву великою
+    dataFormatada = dataFormatada.charAt(0).toUpperCase() + dataFormatada.slice(1);
+    
+    const horaFormatada = agora.toLocaleTimeString('pt-PT');
+    
+    dataAtualElemento.innerHTML = `${horaFormatada} - ${dataFormatada}`;
+  }
+  
+  // Оновлюємо час зразу і кожну секунду
+  atualizarRelogio();
+  setInterval(atualizarRelogio, 1000);
+
+  // Форматуємо час для таблички
+  function formatarTempo(dataObj) {
+    return dataObj.toTimeString().split(' ')[0];
+  }
+
+  // Головна математика
+  function calcularRegas() {
+    const strHoraInicio = document.getElementById('horaInicio').value;
+    const strIntervalo = document.getElementById('intervalo').value;
+    const strDuracao = document.getElementById('duracao').value;
+    const qtdRegas = parseInt(document.getElementById('quantidadeRegas').value);
+
+    if(!strHoraInicio || !strIntervalo || !strDuracao || !qtdRegas) {
+      alert('Por favor, preencha todos os campos!');
+      return;
+    }
+
+    let [inicioH, inicioM, inicioS] = strHoraInicio.split(':').map(Number);
+    if(isNaN(inicioS)) inicioS = 0;
+    let tempoAtual = new Date(2000, 0, 1, inicioH, inicioM, inicioS);
+
+    let [intH, intM] = strIntervalo.split(':').map(Number);
+    const msIntervalo = (intH * 3600 + intM * 60) * 1000;
+
+    let [durM, durS] = strDuracao.split(':').map(Number);
+    const msDuracao = (durM * 60 + durS) * 1000;
+
+    const corpoTabela = document.getElementById('corpoTabela');
+    corpoTabela.innerHTML = '';
+
+    for(let i = 1; i <= qtdRegas; i++) {
+      let inicioFormatado = formatarTempo(tempoAtual);
+      
+      let tempoFim = new Date(tempoAtual.getTime() + msDuracao);
+      let fimFormatado = formatarTempo(tempoFim);
+
+      let tr = document.createElement('tr');
+      tr.innerHTML = `<td><b>${i}</b></td><td>${inicioFormatado}</td><td>${fimFormatado}</td>`;
+      corpoTabela.appendChild(tr);
+
+      tempoAtual = new Date(tempoAtual.getTime() + msIntervalo);
+    }
+
+    document.getElementById('tabelaResultados').style.display = 'table';
+  }
+</script>
+</body>
+</html>
