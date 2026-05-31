@@ -184,11 +184,16 @@
     if(isNaN(inicioS)) inicioS = 0;
     let tempoAtual = new Date(2000, 0, 1, inicioH, inicioM, inicioS);
 
-    let [intH, intM] = strIntervalo.split(':').map(Number);
-    const msIntervalo = (intH * 3600 + intM * 60) * 1000;
+        // Рахуємо інтервал (Години:Хвилини:Секунди)
+    let [intH, intM, intS] = strIntervalo.split(':').map(Number);
+    if(isNaN(intS)) intS = 0; // Якщо секунд нема, ставимо нуль
+    const msIntervalo = (intH * 3600 + intM * 60 + intS) * 1000;
 
-    let [durM, durS] = strDuracao.split(':').map(Number);
-    const msDuracao = (durM * 60 + durS) * 1000;
+    // Рахуємо час поливу (Години:Хвилини:Секунди)
+    let [durH, durM, durS] = strDuracao.split(':').map(Number);
+    if(isNaN(durS)) durS = 0; // Якщо секунд нема, ставимо нуль
+    const msDuracao = (durH * 3600 + durM * 60 + durS) * 1000;
+
 
     const corpoTabela = document.getElementById('corpoTabela');
     corpoTabela.innerHTML = '';
