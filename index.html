@@ -11,7 +11,7 @@
 <style>
   body {
     font-family: Arial, sans-serif;
-    background-color: #f8f9fa; /* Світлий фон як на скріні */
+    background-color: #f8f9fa;
     color: #000;
     margin: 0;
     padding: 20px;
@@ -102,7 +102,7 @@
   .assinatura {
     margin-top: 30px;
     margin-bottom: 10px;
-    font-size: 13px;
+    font-size: 15px;
     color: #777;
     text-align: center;
     width: 100%;
@@ -126,15 +126,15 @@
     <div class="row-inputs">
     <div class="input-group">
       <label>Intervalo</label>
-      <input type="time" id="intervalo" step="1" value="01:00:00">
+      <input type="time" id="intervalo" step="1" value="00:00:00">
     </div>
     <div class="input-group">
       <label>Duração</label>
-      <input type="time" id="duracao" step="1" value="00:03:00">
+      <input type="time" id="duracao" step="1" value="00:00:00">
     </div>
     <div class="input-group">
       <label>Regas</label>
-      <input type="number" id="quantidadeRegas" value="20" min="1">
+      <input type="number" id="quantidadeRegas" value="0" min="1">
     </div>
   </div>
 
@@ -157,7 +157,6 @@
   </div>
 </div>
 <script>
-  // Функція, щоб показувати поточний час і дату на плашці португальською
   function atualizarRelogio() {
     const dataAtualElemento = document.getElementById('dataAtual');
     const agora = new Date();
@@ -178,7 +177,7 @@
     return dataObj.toTimeString().split(' ')[0];
   }
 
-  // НОВА ФУНКЦІЯ: Завантажує збережені дані з пам'яті телефону
+  
   function carregarDadosSalvos() {
     if(localStorage.getItem('regas_horaInicio')) {
       document.getElementById('horaInicio').value = localStorage.getItem('regas_horaInicio');
@@ -194,10 +193,10 @@
     }
   }
 
-  // Викликаємо завантаження даних відразу, як відкривається сторінка
+  
   carregarDadosSalvos();
 
-  // Головна математика
+  
   function calcularRegas() {
     const strHoraInicio = document.getElementById('horaInicio').value;
     const strIntervalo = document.getElementById('intervalo').value;
@@ -209,7 +208,7 @@
       return;
     }
 
-    // НОВЕ: Зберігаємо введені дані в пам'ять телефону
+    
     localStorage.setItem('regas_horaInicio', strHoraInicio);
     localStorage.setItem('regas_intervalo', strIntervalo);
     localStorage.setItem('regas_duracao', strDuracao);
@@ -250,8 +249,8 @@
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
       navigator.serviceWorker.register('./sw.js')
-        .then(reg => console.log('Service Worker працює!', reg))
-        .catch(err => console.log('Йой, помилка Service Worker:', err));
+        .then(reg => console.log('Service Worker work!', reg))
+        .catch(err => console.log('erro Service Worker:', err));
     });
   }
 </script>
