@@ -1,7 +1,10 @@
+
 {
+  "id": "calculadora-regas-v1",
   "name": "Calculadora de Regas",
   "short_name": "Regas",
-  "start_url": "index.html",
+  "start_url": "./index.html",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#f8f9fa",
   "theme_color": "#007bff",
