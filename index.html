@@ -156,16 +156,14 @@
     Feito por Yurii Ivanytskyi 🤟🏻
   </div>
 </div>
-
 <script>
-
+  // Функція, щоб показувати поточний час і дату на плашці португальською
   function atualizarRelogio() {
     const dataAtualElemento = document.getElementById('dataAtual');
     const agora = new Date();
     
     const opcoesData = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     let dataFormatada = agora.toLocaleDateString('pt-PT', opcoesData);
-    
     dataFormatada = dataFormatada.charAt(0).toUpperCase() + dataFormatada.slice(1);
     
     const horaFormatada = agora.toLocaleTimeString('pt-PT');
@@ -173,16 +171,33 @@
     dataAtualElemento.innerHTML = `${horaFormatada} - ${dataFormatada}`;
   }
   
-  у
   atualizarRelogio();
   setInterval(atualizarRelogio, 1000);
 
-  
   function formatarTempo(dataObj) {
     return dataObj.toTimeString().split(' ')[0];
   }
 
-  
+  // НОВА ФУНКЦІЯ: Завантажує збережені дані з пам'яті телефону
+  function carregarDadosSalvos() {
+    if(localStorage.getItem('regas_horaInicio')) {
+      document.getElementById('horaInicio').value = localStorage.getItem('regas_horaInicio');
+    }
+    if(localStorage.getItem('regas_intervalo')) {
+      document.getElementById('intervalo').value = localStorage.getItem('regas_intervalo');
+    }
+    if(localStorage.getItem('regas_duracao')) {
+      document.getElementById('duracao').value = localStorage.getItem('regas_duracao');
+    }
+    if(localStorage.getItem('regas_qtd')) {
+      document.getElementById('quantidadeRegas').value = localStorage.getItem('regas_qtd');
+    }
+  }
+
+  // Викликаємо завантаження даних відразу, як відкривається сторінка
+  carregarDadosSalvos();
+
+  // Головна математика
   function calcularRegas() {
     const strHoraInicio = document.getElementById('horaInicio').value;
     const strIntervalo = document.getElementById('intervalo').value;
@@ -194,20 +209,23 @@
       return;
     }
 
+    // НОВЕ: Зберігаємо введені дані в пам'ять телефону
+    localStorage.setItem('regas_horaInicio', strHoraInicio);
+    localStorage.setItem('regas_intervalo', strIntervalo);
+    localStorage.setItem('regas_duracao', strDuracao);
+    localStorage.setItem('regas_qtd', qtdRegas);
+
     let [inicioH, inicioM, inicioS] = strHoraInicio.split(':').map(Number);
     if(isNaN(inicioS)) inicioS = 0;
     let tempoAtual = new Date(2000, 0, 1, inicioH, inicioM, inicioS);
 
-        
     let [intH, intM, intS] = strIntervalo.split(':').map(Number);
-    if(isNaN(intS)) intS = 0; 
+    if(isNaN(intS)) intS = 0;
     const msIntervalo = (intH * 3600 + intM * 60 + intS) * 1000;
 
-    
     let [durH, durM, durS] = strDuracao.split(':').map(Number);
-    if(isNaN(durS)) durS = 0; 
+    if(isNaN(durS)) durS = 0;
     const msDuracao = (durH * 3600 + durM * 60 + durS) * 1000;
-
 
     const corpoTabela = document.getElementById('corpoTabela');
     corpoTabela.innerHTML = '';
@@ -228,7 +246,7 @@
     document.getElementById('tabelaResultados').style.display = 'table';
   }
 
-  
+  // Реєструємо Service Worker для роботи офлайн
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
       navigator.serviceWorker.register('./sw.js')
@@ -236,7 +254,8 @@
         .catch(err => console.log('Йой, помилка Service Worker:', err));
     });
   }
-
 </script>
+
+
 </body>
 </html>
