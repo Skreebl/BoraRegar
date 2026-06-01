@@ -73,7 +73,7 @@
   .btn-blue {
     width: 100%;
     padding: 15px;
-    background-color: #007bff; /* Синій колір кнопок зі скріна */
+    background-color: #007bff;
     color: white;
     border: none;
     border-radius: 5px;
@@ -144,14 +144,14 @@
 </div>
 
 <script>
-  // Функція, щоб показувати поточний час і дату на плашці португальською
+
   function atualizarRelogio() {
     const dataAtualElemento = document.getElementById('dataAtual');
     const agora = new Date();
     
     const opcoesData = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     let dataFormatada = agora.toLocaleDateString('pt-PT', opcoesData);
-    // Робимо першу букву великою
+    
     dataFormatada = dataFormatada.charAt(0).toUpperCase() + dataFormatada.slice(1);
     
     const horaFormatada = agora.toLocaleTimeString('pt-PT');
@@ -159,16 +159,16 @@
     dataAtualElemento.innerHTML = `${horaFormatada} - ${dataFormatada}`;
   }
   
-  // Оновлюємо час зразу і кожну секунду
+  у
   atualizarRelogio();
   setInterval(atualizarRelogio, 1000);
 
-  // Форматуємо час для таблички
+  
   function formatarTempo(dataObj) {
     return dataObj.toTimeString().split(' ')[0];
   }
 
-  // Головна математика
+  
   function calcularRegas() {
     const strHoraInicio = document.getElementById('horaInicio').value;
     const strIntervalo = document.getElementById('intervalo').value;
@@ -184,14 +184,14 @@
     if(isNaN(inicioS)) inicioS = 0;
     let tempoAtual = new Date(2000, 0, 1, inicioH, inicioM, inicioS);
 
-        // Рахуємо інтервал (Години:Хвилини:Секунди)
+        
     let [intH, intM, intS] = strIntervalo.split(':').map(Number);
-    if(isNaN(intS)) intS = 0; // Якщо секунд нема, ставимо нуль
+    if(isNaN(intS)) intS = 0; 
     const msIntervalo = (intH * 3600 + intM * 60 + intS) * 1000;
 
-    // Рахуємо час поливу (Години:Хвилини:Секунди)
+    
     let [durH, durM, durS] = strDuracao.split(':').map(Number);
-    if(isNaN(durS)) durS = 0; // Якщо секунд нема, ставимо нуль
+    if(isNaN(durS)) durS = 0; 
     const msDuracao = (durH * 3600 + durM * 60 + durS) * 1000;
 
 
@@ -214,7 +214,7 @@
     document.getElementById('tabelaResultados').style.display = 'table';
   }
 
-  // Реєструємо Service Worker для роботи офлайн
+  
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
       navigator.serviceWorker.register('./sw.js')
