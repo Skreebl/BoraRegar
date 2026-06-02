@@ -1,10 +1,9 @@
-
 {
-  "id": "calculadora-regas-v1",
+  "id": "/BoraRegar/",
   "name": "Calculadora de Regas",
   "short_name": "Regas",
-  "start_url": "./index.html",
-  "scope": "./",
+  "start_url": "/BoraRegar/index.html",
+  "scope": "/BoraRegar/",
   "display": "standalone",
   "background_color": "#f8f9fa",
   "theme_color": "#007bff",
