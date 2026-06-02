@@ -293,15 +293,15 @@
 
     document.getElementById('tabelaResultados').style.display = 'table';
   }
-
-  // Реєструємо Service Worker для роботи офлайн
+  // Реєструємо Service Worker з жорсткими рамками папки
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-      navigator.serviceWorker.register('./sw.js')
-        .then(reg => console.log('Service Worker work!', reg))
-        .catch(err => console.log('erro Service Worker:', err));
+      navigator.serviceWorker.register('/BoraRegar/sw.js', { scope: '/BoraRegar/' })
+        .then(reg => console.log('Service Worker працює в межах BoraRegar!', reg))
+        .catch(err => console.log('Йой, помилка Service Worker:', err));
     });
   }
+  
    // Відкрити вікно з QR
   function mostrarQR() {
     document.getElementById('qrModal').style.display = 'flex';
