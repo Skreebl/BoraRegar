@@ -108,7 +108,47 @@
     text-align: center;
     width: 100%;
   }
-
+/* Стилі для QR-вікна */
+  .modal-qr {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6); /* Темний напівпрозорий фон */
+    justify-content: center;
+    align-items: center;
+  }
+  .modal-content {
+    background-color: #fff;
+    padding: 25px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    max-width: 80%;
+  }
+  .modal-content img {
+    width: 200px;
+    height: 200px;
+    cursor: pointer;
+    border: 5px solid #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  }
+  .modal-content p {
+    margin-top: 15px;
+    font-size: 15px;
+    color: #333;
+    font-weight: bold;
+  }
+  .modal-content p.dica {
+    font-size: 12px;
+    color: #666;
+    font-weight: normal;
+    margin-top: 5px;
+  }
 </style>
 </head>
  <body>
@@ -153,8 +193,16 @@
     <tbody id="corpoTabela">
     </tbody>
   </table>
-    <div class="assinatura">
-    Feito por Yurii Ivanytskyi🤘
+     <div class="assinatura">
+    Feito por <span onclick="mostrarQR()" style="cursor: pointer; color: #007bff; text-decoration: underline; font-weight: bold;">Yurii Ivanytskyi 🤟🏻</span>
+  </div>
+
+</div> <div id="qrModal" class="modal-qr" onclick="fecharQR(event)">
+  <div class="modal-content">
+    <h3 style="margin-top:0; color: #2c3e50;">Bora Regar!</h3>
+    <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://skreebl.github.io/BoraRegar/" alt="QR Code" onclick="partilharApp()">
+    <p>Clica no QR Code para partilhar</p>
+    <p class="dica">(Ou pede a um colega para ler com a câmara)</p>
   </div>
 </div>
 <script>
@@ -254,6 +302,38 @@
         .catch(err => console.log('erro Service Worker:', err));
     });
   }
+   // Відкрити вікно з QR
+  function mostrarQR() {
+    document.getElementById('qrModal').style.display = 'flex';
+  }
+
+  // Закрити вікно, якщо натиснули мимо білого квадрата (на темний фон)
+  function fecharQR(event) {
+    if (event.target.id === 'qrModal') {
+      document.getElementById('qrModal').style.display = 'none';
+    }
+  }
+
+  // Функція для поширення додатка (спрацьовує при кліку на сам QR-код)
+  function partilharApp() {
+    if (navigator.share) {
+      navigator.share({
+        title: 'Calculadora de Regas',
+        text: 'Olha esta calculadora de regas fixe! Muito útil para o trabalho.',
+        url: 'https://skreebl.github.io/BoraRegar/'
+      })
+      .then(() => {
+        console.log('Успішно поширено');
+        // Закриваємо вікно після того, як поділилися
+        document.getElementById('qrModal').style.display = 'none'; 
+      })
+      .catch((error) => console.log('Помилка поширення', error));
+    } else {
+      navigator.clipboard.writeText('https://skreebl.github.io/BoraRegar/');
+      alert('Link copiado para a área de transferência! (Посилання скопійовано)');
+    }
+  }
+
 </script>
 
 
