@@ -1,9 +1,10 @@
-const CACHE_NAME = 'regas-cache-v1';
+// Змінили назву на унікальну, щоб браузер зрозумів, що це нове
+const CACHE_NAME = 'boraregar-cache-v2'; 
 const urlsToCache = [
-  './',
-  './index.html', // Якщо твій головний файл називається інакше (напр. polivka.html), то впиши тутка його назву
-  './manifest.json',
-  './sw.js'
+  '/BoraRegar/',
+  '/BoraRegar/index.html',
+  '/BoraRegar/manifest.json',
+  '/BoraRegar/sw.js'
 ];
 
 self.addEventListener('install', event => {
