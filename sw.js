@@ -1,5 +1,5 @@
 // Змінили назву на унікальну, щоб браузер зрозумів, що це нове
-const CACHE_NAME = 'boraregar-cache-v2'; 
+const CACHE_NAME = 'boraregar-cache-v2.1'; 
 const urlsToCache = [
   '/BoraRegar/',
   '/BoraRegar/index.html',
