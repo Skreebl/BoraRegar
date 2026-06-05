@@ -1,5 +1,5 @@
 // ЗМІНЮЙ ЦЮ ЦИФРУ КОЖНОГО РАЗУ, КОЛИ РОБИШ ЗМІНИ В INDEX.HTML (v4, v5, v6...)
-const CACHE_NAME = 'boraregar-cache-v4'; 
+const CACHE_NAME = 'boraregar-cache-v5'; 
 
 const urlsToCache = [
   '/BoraRegar/',
