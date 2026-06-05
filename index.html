@@ -299,14 +299,26 @@
 
     document.getElementById('tabelaResultados').style.display = 'table';
   }
-  // Реєструємо Service Worker з жорсткими рамками папки
+   // Реєструємо Service Worker з автоматичним оновленням
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
       navigator.serviceWorker.register('/BoraRegar/sw.js', { scope: '/BoraRegar/' })
-        .then(reg => console.log('Service Worker працює в межах BoraRegar!', reg))
+        .then(reg => {
+          console.log('Service Worker працює!', reg);
+        })
         .catch(err => console.log('Йой, помилка Service Worker:', err));
+
+      // ЦЕЙ КОД СЛІДКУЄ ЗА ОНОВЛЕННЯМИ:
+      // Як тільки новий sw.js бере контроль, сторінка САМА перезавантажується один раз
+      let refreshing;
+      navigator.serviceWorker.addEventListener('controllerchange', () => {
+        if (refreshing) return;
+        refreshing = true;
+        window.location.reload();
+      });
     });
   }
+
   
    // Відкрити вікно з QR
   function mostrarQR() {
