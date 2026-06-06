@@ -19,6 +19,7 @@
     padding-bottom: 60px;
     display: flex;
     justify-content: center;
+    overflow-x: hidden; /* Забороняємо горизонтальну прокрутку всієї сторінки */
   }
   .container {
     width: 100%;
@@ -60,9 +61,16 @@
   .tab-content {
     display: none;
     width: 100%;
+    /* Додаємо анімацію плавної появи при свайпі/кліку */
+    animation: fadeEffect 0.3s;
   }
   .tab-content.active {
     display: block;
+  }
+  
+  @keyframes fadeEffect {
+    from {opacity: 0;}
+    to {opacity: 1;}
   }
 
   /* ================= СТИЛІ: BORA REGAR ================= */
@@ -439,7 +447,6 @@
     const volumeLitros = vazaoPorMinuto * tempoTotalMinutos;
     const volumeMl = volumeLitros * 1000;
 
-    // Виводимо суто в мілілітрах
     document.getElementById('resMl').innerText = Math.round(volumeMl) + ' ml';
     
     document.getElementById('resultadoBox').style.display = 'block';
@@ -471,6 +478,35 @@
       alert('Link copiado!');
     }
   }
+
+  // ================= ЛОГІКА ДЛЯ СВАЙПІВ =================
+  let touchstartX = 0;
+  let touchendX = 0;
+
+  function handleSwipe() {
+    const threshold = 50; // Мінімальна відстань для свайпу
+    const botoes = document.getElementsByClassName('tab-btn');
+    
+    if (touchendX < touchstartX - threshold) {
+      // Свайп вліво <- (переходимо на другу вкладку)
+      mostrarTab('calcVaso', botoes[1]);
+    }
+    if (touchendX > touchstartX + threshold) {
+      // Свайп вправо -> (переходимо на першу вкладку)
+      mostrarTab('calcPrincipal', botoes[0]);
+    }
+  }
+
+  // Вішаємо слухачі подій на весь документ
+  document.addEventListener('touchstart', e => {
+    touchstartX = e.changedTouches[0].screenX;
+  }, false);
+
+  document.addEventListener('touchend', e => {
+    touchendX = e.changedTouches[0].screenX;
+    handleSwipe();
+  }, false);
+
 
   // ================= АВТОМАТИЧНИЙ ЗАПУСК =================
   window.addEventListener('DOMContentLoaded', (event) => {
