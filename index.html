@@ -208,14 +208,10 @@
     font-weight: bold;
   }
   .result-value {
-    font-size: 28px;
+    font-size: 32px;
     font-weight: bold;
     color: #007bff;
     margin: 10px 0;
-  }
-  .result-ml {
-    font-size: 16px;
-    color: #666;
   }
 
   /* ================= ФУТЕР І QR-КОД ================= */
@@ -356,8 +352,7 @@
 
     <div class="result-box" id="resultadoBox">
         <div class="result-title">Volume Total por Vaso</div>
-        <div class="result-value" id="resLitros">0.00 L</div>
-        <div class="result-ml" id="resMl">0 ml</div>
+        <div class="result-value" id="resMl">0 ml</div>
     </div>
   </div>
 
@@ -461,7 +456,7 @@
     const volumeLitros = vazaoPorMinuto * tempoTotalMinutos;
     const volumeMl = volumeLitros * 1000;
 
-    document.getElementById('resLitros').innerText = volumeLitros.toFixed(2) + ' L';
+    // Виводимо суто в мілілітрах
     document.getElementById('resMl').innerText = Math.round(volumeMl) + ' ml';
     
     document.getElementById('resultadoBox').style.display = 'block';
@@ -495,7 +490,6 @@
   }
 
   // ================= АВТОМАТИЧНИЙ ЗАПУСК =================
-  // Цей блок гарантує, що все запрацює тільки після повного завантаження
   window.addEventListener('DOMContentLoaded', (event) => {
       
       function atualizarRelogio() {
