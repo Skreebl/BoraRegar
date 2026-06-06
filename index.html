@@ -10,7 +10,65 @@
 <link rel="apple-touch-icon" href="icon-192.ico">
 <link rel="icon" type="image/png" href="icon-192.png">
 <style>
-  body {
+ /* Стилі для меню вкладок */
+.tab-container {
+    display: flex;
+    justify-content: center;
+    background: #e2e3e5;
+    border-radius: 10px;
+    padding: 5px;
+    margin-bottom: 20px;
+    width: 100%;
+    max-width: 350px;
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    background: transparent;
+    font-size: 16px;
+    font-weight: bold;
+    color: #555;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.tab-btn.active {
+    background: #0d6efd; /* Синій колір активної вкладки */
+    color: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Ховаємо неактивні блоки */
+.tab-content {
+    display: none;
+    width: 100%;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+  body 
+ <div class="tab-container">
+    <button class="tab-btn active" onclick="mostrarTab('calcPrincipal', this)">Regas</button>
+    <button class="tab-btn" onclick="mostrarTab('calcVaso', this)">Água por Vaso</button>
+</div>
+
+<div id="calcPrincipal" class="tab-content active">
+    
+    <h2>Calculadora de Regas</h2>
+    </div>
+
+<div id="calcVaso" class="tab-content">
+    
+    <h2>Água por Vaso 💧</h2>
+    </div>
+
+ 
+ {
     font-family: Arial, sans-serif;
     background-color: #f8f9fa;
     color: #000;
@@ -351,8 +409,32 @@
       alert('Link copiado para a área de transferência! (Посилання скопійовано)');
     }
   }
+ <script>
+    function mostrarTab(tabId, elementoBotao) {
+        // 1. Ховаємо всі контейнери з калькуляторами
+        const conteudos = document.getElementsByClassName('tab-content');
+        for (let i = 0; i < conteudos.length; i++) {
+            conteudos[i].classList.remove('active');
+            conteudos[i].style.display = 'none';
+        }
+
+        // 2. Знімаємо підсвітку з усіх кнопок
+        const botoes = document.getElementsByClassName('tab-btn');
+        for (let i = 0; i < botoes.length; i++) {
+            botoes[i].classList.remove('active');
+        }
+
+        // 3. Показуємо той калькулятор, який треба, і підсвічуємо натиснуту кнопку
+        document.getElementById(tabId).style.display = 'block';
+        elementoBotao.classList.add('active');
+    }
+
+    // ... тут залишаються ваші старі функції для розрахунків (calcularVolume тощо) ...
+</script>
+
 
 </script>
+ 
 
 
 </body>
