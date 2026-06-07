@@ -480,20 +480,19 @@
   }
 
   
- // ================= ЛОГІКА ДЛЯ СВАЙПІВ =================
+// ================= ЛОГІКА ДЛЯ СВАЙПІВ =================
   let touchstartX = 0;
   let touchendX = 0;
 
   document.addEventListener('touchstart', e => {
-    // Свайп працює тільки якщо ми торкнулися контейнера або фону, 
-    // а не безпосередньо кнопки чи інпуту
-    if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'BUTTON') {
+    // Додали ще LABEL до винятків, аби випадково не свайпало при виборі радіо-кнопок
+    if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'BUTTON' && e.target.tagName !== 'LABEL') {
       touchstartX = e.changedTouches[0].screenX;
     }
   }, false);
 
   document.addEventListener('touchend', e => {
-    if (touchstartX === 0) return; // Якщо дотик був на інпуті - ігноруємо
+    if (touchstartX === 0) return; // Якщо дотик був на кнопці/інпуті - ігноруємо
     
     touchendX = e.changedTouches[0].screenX;
     handleSwipe();
@@ -501,7 +500,7 @@
   }, false);
 
   function handleSwipe() {
-    const threshold = 80; // Збільшив поріг до 80 пікселів для надійності
+    const threshold = 80;
     const botoes = document.getElementsByClassName('tab-btn');
     
     if (touchendX < touchstartX - threshold) {
@@ -512,16 +511,6 @@
       mostrarTab('calcPrincipal', botoes[0]);
     }
   }
-  // Вішаємо слухачі подій на весь документ
-  document.addEventListener('touchstart', e => {
-    touchstartX = e.changedTouches[0].screenX;
-  }, false);
-
-  document.addEventListener('touchend', e => {
-    touchendX = e.changedTouches[0].screenX;
-    handleSwipe();
-  }, false);
-
 
   // ================= АВТОМАТИЧНИЙ ЗАПУСК =================
   window.addEventListener('DOMContentLoaded', (event) => {
